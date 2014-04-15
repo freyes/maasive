@@ -21,7 +21,7 @@ def main():
                     "ASs3XccLNUPU7qjsjU:WmXp28J8vVHrX52St8:Kjg468ZxVewKHMbKNpnQBvy6FcRk3KFC",
                     "http://localhost:8000/MAAS/api/1.0/")
 
-    loader.get_instances(15, {
+    loader.get_instances(25, {
         'architecture': 'amd64',
         'prefix': "juju-",
         'memory': 512,
