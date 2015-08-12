@@ -44,9 +44,8 @@ class Loader(object):
                 logger.error("Error starting new instance %d, error: %s" %
                              (i, ex.message))
                 on_failure = callbacks.get('on_failure', None)
-
                 if on_failure and isinstance(on_failure, collections.Callable):
-                    on_failure(self.driver, loaded_instances)
+                    on_failure(self.driver, ex)
             else:
                 logger.debug("Created new instance %d, details: %s" % (i,
                                                                        instance))
@@ -54,6 +53,7 @@ class Loader(object):
 
                 if on_new_instance and isinstance(on_new_instance,
                                                   colllections.Callable):
+
                     on_new_instance(self.driver, instance)
                 try:
                     self._register_on_maas(instance, **details)
