@@ -21,7 +21,7 @@ class MaaSException(object):
 
 class MaaS(object):
 
-    def __init__(self, credentials, url):
+    def __init__(self, credentials, url, *args, **kwargs):
         [self.consumer_key, self.token, self.secret] = credentials.split(':')
         self.url = url
         self._auth = None

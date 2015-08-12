@@ -7,6 +7,7 @@ import libvirt
 import logging
 import uuid
 import subprocess
+import os
 
 logger = logging.getLogger(__name__)
 
@@ -37,9 +38,12 @@ class Driver(object):
 
     DEFAULT_DISK_SIZE_GIB = 2
     DEFAULT_NETWORK = 'default'
+    DEFAULT_IMAGES_PATH = '/var/lib/libvirt/images'
 
     def __init__(self, uri="qemu:///system", *args, **kwargs):
         self.conn = libvirt.open(uri)
+        self.kwargs = kwargs
+        self.args = args
 
     def __fini__(self):
         self.close()
@@ -89,9 +93,14 @@ class Driver(object):
     def _generate_disk(self, name, size):
         logger.info('Generating a (%d GiB) disk image for virtual machine %s' %
                     (size, name))
+
+        image_location = os.path.join(
+            self.kwargs.get('images_path',
+                            self.DEFAULT_IMAGES_PATH), name) + '.img'
+
         subprocess.call(
-            "dd if=/dev/zero of=/var/lib/libvirt/images/%s.img bs=1M count=%d"
-            % (name, size * 1024.00), shell=True,
+            "dd if=/dev/zero of=%s bs=1M count=%d"
+            % (image_location, size * 1024.00), shell=True,
             stderr=subprocess.PIPE)
 
     def create(self, *args, **kwargs):
@@ -102,8 +111,6 @@ class Driver(object):
 
         name = kwargs.get('name')
         disk = kwargs.get('disk', self.DEFAULT_DISK_SIZE_GIB)
-
-        network = kwargs.get('network', self.DEFAULT_NETWORK)
 
         # generate a disk image
         self._generate_disk(name, disk)

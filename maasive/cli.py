@@ -7,6 +7,7 @@ import argparse
 import logging
 
 from maasive.loader import Loader
+from maasive.driver import Driver
 
 LOG = logging.getLogger('maasive.cli')
 MAAS_OAUTH = ("ASs3XccLNUPU7qjsjU:WmXp28J8vVHrX52S"
@@ -15,8 +16,11 @@ MAAS_OAUTH = ("ASs3XccLNUPU7qjsjU:WmXp28J8vVHrX52S"
 
 def setup_options(argv=None):
     parser = argparse.ArgumentParser(description='Publisher of messages.')
+    parser.add_argument('-net', '--network', dest='network',
+                        metavar='N', default="default", type=str,
+                        help="default network to be used")
     parser.add_argument('-n', '--num-instances', dest='num_instances',
-                        metavar='N', default=2, type=int,
+                        metavar='N', default=1, type=int,
                         help="number of instances")
     parser.add_argument('-m', '--memory', dest='memory',
                         metavar='N', default=512, type=int,
@@ -31,11 +35,14 @@ def setup_options(argv=None):
     parser.add_argument('--disk', default=1, type=int, dest="disk_size",
                         metavar='N',
                         help="Disk size (in GB) for each instance")
+    parser.add_argument('--images-path', default=Driver.DEFAULT_IMAGES_PATH,
+                        help="Path to store the VM images", dest="images_path",
+                        type=str)
 
     return parser.parse_args(argv)
 
 
-def on_failure(driver, instances):
+def on_failure(driver, exc):
     # this callback will be invoked on failure, you can
     # abort the whole installation if you want.
     pass
@@ -51,6 +58,7 @@ def main(argv=None):
                           'prefix': opts.prefix,
                           'memory': opts.memory,
                           'cpus': opts.vcpus,
+                          'network': opts.network,
                           'disk': opts.disk_size},
                          on_failure=on_failure)
 

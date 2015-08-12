@@ -18,9 +18,9 @@ class LoaderException(Exception):
 
 class Loader(object):
 
-    def __init__(self, libvirt_uri, maas_oauth, maas_url):
-        self.driver = Driver(uri=libvirt_uri)
-        self.maas = MaaS(maas_oauth, maas_url)
+    def __init__(self, libvirt_uri, maas_oauth, maas_url, *args, **kwargs):
+        self.driver = Driver(uri=libvirt_uri, *args, **kwargs)
+        self.maas = MaaS(maas_oauth, maas_url, *args, **kwargs)
 
     def _register_on_maas(self, instance, **details):
         for mac in instance.macs:
@@ -42,7 +42,7 @@ class Loader(object):
             logger.debug("Starting instance %d of %d" % (i, instances))
             try:
                 if 'prefix' in details:
-                    details['name'] = '%s-%d' % (details['prefix'], i)
+                    details['name'] = '%s%d' % (details['prefix'], i)
                 else:
                     details['name'] = 'new_machine_%d' % i
 
@@ -59,7 +59,7 @@ class Loader(object):
             except Exception as ex:
                 logger.error("Error starting new instance %d, error: %s" %
                              (i, ex.message))
-                self._run_callback('on_failure', ex)
+                self._run_callback('on_failure', self.driver, ex)
 
         self._run_callback('on_load_ready', loaded_instances)
         return loaded_instances
