@@ -8,17 +8,18 @@ from maasive.loader import Loader
 import logging
 
 logger = logging.getLogger(__name__)
+MAAS_OAUTH = ("ASs3XccLNUPU7qjsjU:WmXp28J8vVHrX52S"
+              "t8:Kjg468ZxVewKHMbKNpnQBvy6FcRk3KFC")
 
 
 def on_failure(driver, instances):
-    #this callback will be invoked on failure, you can
-    #abort the whole installation if you want.
+    # this callback will be invoked on failure, you can
+    # abort the whole installation if you want.
     pass
 
 
 def main():
-    loader = Loader("qemu:///system",
-                    "ASs3XccLNUPU7qjsjU:WmXp28J8vVHrX52St8:Kjg468ZxVewKHMbKNpnQBvy6FcRk3KFC",
+    loader = Loader("qemu:///system", MAAS_OAUTH,
                     "http://localhost:8000/MAAS/api/1.0/")
 
     loader.get_instances(15, {
