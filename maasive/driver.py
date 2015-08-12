@@ -36,6 +36,7 @@ class Driver(object):
     """
 
     DEFAULT_DISK_SIZE_GIB = 2
+    DEFAULT_NETWORK = 'default'
 
     def __init__(self, uri="qemu:///system", *args, **kwargs):
         self.conn = libvirt.open(uri)
@@ -102,11 +103,12 @@ class Driver(object):
         name = kwargs.get('name')
         disk = kwargs.get('disk', self.DEFAULT_DISK_SIZE_GIB)
 
-        #generate a disk image
+        network = kwargs.get('network', self.DEFAULT_NETWORK)
+        # generate a disk image
         self._generate_disk(name, disk)
         try:
-            #Todo: implement a good disk handler, for
-            #now all will be image based.
+            # Todo: implement a good disk handler, for
+            # now all will be image based.
             self.conn.createXML(template, 0)
         except Exception as ex:
             raise DriverException(
