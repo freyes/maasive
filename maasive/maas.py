@@ -14,8 +14,6 @@ from apiclient.maas_client import (
     MAASOAuth,
     )
 
-from provisioningserver.enum import POWER_TYPE
-
 
 class MaaSException(object):
     pass
@@ -63,7 +61,7 @@ class MaaS(object):
             'architecture': parameters.get('architecture', 'amd64'),
             'nodegroup': '',
             'mac_addresses': [mac_addr],
-            'power_type': POWER_TYPE.VIRSH,
+            'power_type': "virsh",
         }
 
         if 'power_address' in parameters:

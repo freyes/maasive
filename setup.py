@@ -17,12 +17,14 @@ setup(
     author_email="jnr@metaklass.org",
     description="",
     packages=find_packages(),
-    test_suite = 'nose.collector',
+    test_suite='nose.collector',
     long_description=read('README.md'),
     classifiers=[
         "Development Status :: 3 - Alpha",
     ],
-    entry_points = """
-[console_scripts]
-"""
+    entry_points={
+        'console_scripts': [
+            'maasive = maasive.cli:main',
+            ]
+        }
 )
