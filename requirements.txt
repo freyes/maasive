@@ -1,6 +1,4 @@
 Jinja2==2.7.2
 MarkupSafe==0.19
 argparse==1.2.1
-## !! Could not determine repository location
-maasive==0.0.1
 wsgiref==0.1.2
