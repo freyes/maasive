@@ -102,11 +102,11 @@ class Driver(object):
         name = kwargs.get('name')
         disk = kwargs.get('disk', self.DEFAULT_DISK_SIZE_GIB)
 
-        #generate a disk image
+        # generate a disk image
         self._generate_disk(name, disk)
         try:
-            #Todo: implement a good disk handler, for
-            #now all will be image based.
+            # TODO: implement a good disk handler, for
+            # now all will be image based.
             self.conn.createXML(template, 0)
         except Exception as ex:
             raise DriverException(
