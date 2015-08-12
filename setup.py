@@ -22,7 +22,9 @@ setup(
     classifiers=[
         "Development Status :: 3 - Alpha",
     ],
-    entry_points="""
-[console_scripts]
-"""
+    entry_points={
+        'console_scripts': [
+            'maasive = maasive.cli:main',
+            ]
+        }
 )

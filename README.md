@@ -3,6 +3,13 @@ Maasive
 
 A tool for deploy/commision large amounts of KVM guests on MaaS.
 
+Install
+=======
+
+```
+sudo apt-get install libxml2-dev libxslt-dev libvirt-dev python-maas-client
+pip install git+https://github.com/niedbalski/maasive.git#egg=maasive
+```
 
 Example
 ========
